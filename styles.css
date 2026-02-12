@@ -111,9 +111,12 @@ body {
 
 .card-gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
     margin-bottom: 40px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .card {
@@ -381,10 +384,11 @@ body {
     font-weight: 700;
 }
 
-@media (max-width: 768px) {
-    body {
-        padding: 20px 15px;
+@media (min-width: 1025px) {
+    .card-gallery {
+        grid-template-columns: repeat(3, 1fr);
     }
+}
 
     .header h1 {
         font-size: 2rem;
