@@ -1,4 +1,4 @@
-window.addEventListener('load', () => {
+window.addEventListener('DOMContentLoaded', () => {
     const loader = document.getElementById('loader');
     
     setTimeout(() => {
@@ -9,6 +9,7 @@ window.addEventListener('load', () => {
         }, 600);
     }, 2500);
 });
+
 
 class CardModal {
     constructor() {
