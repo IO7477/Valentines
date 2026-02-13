@@ -3,128 +3,1091 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Valentine's Day - Card Gallery</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <title>Happy Valentine's Day</title>
+    <style>
+        /* ===== CSS CUSTOM PROPERTIES ===== */
+        :root {
+            --primary-red: #C41E3A;
+            --coral-pink: #FF6B7A;
+            --light-pink: #FFB6C1;
+            --deep-pink: #FF1493;
+            --white: #FFFFFF;
+            --dark-overlay: rgba(0, 0, 0, 0.6);
+            --transition-fast: 0.2s ease;
+            --transition-medium: 0.3s ease;
+            --transition-slow: 0.4s ease-out;
+            --transition-page: 1s ease;
+        }
+
+        /* ===== GLOBAL STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 50%, #C41E3A 100%);
+            min-height: 100vh;
+        }
+
+        /* ===== LOADING SCREEN ===== */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #FFB6C1 0%, #FF1493 50%, #C41E3A 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.8s ease-out;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-heart {
+            font-size: 80px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        .loading-text {
+            color: var(--white);
+            font-size: 24px;
+            margin-top: 30px;
+            font-family: 'Arial', sans-serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(0.8);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        #main-content {
+            opacity: 0;
+            transition: opacity var(--transition-page);
+            min-height: 100vh;
+            padding-bottom: 100px;
+        }
+
+        #main-content.visible {
+            opacity: 1;
+        }
+
+        #main-content.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(180deg, rgba(255, 182, 193, 0.9) 0%, transparent 100%);
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-family: 'Georgia', serif;
+            font-size: 56px;
+            color: var(--primary-red);
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+        }
+
+        /* ===== CARD GRID ===== */
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            padding: 180px 40px 40px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            width: 300px;
+            height: 440px;
+            border-radius: 22px;
+            position: relative;
+            cursor: pointer;
+            transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Card 1 - Red/Pink HAPPY Card */
+        .card-1 {
+            background: #FF5A6E;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .card-1 .decorative-heart {
+            width: 180px;
+            height: 180px;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .card-1 .decorative-heart::before,
+        .card-1 .decorative-heart::after {
+            content: "";
+            position: absolute;
+            width: 90px;
+            height: 144px;
+            background: #D94452;
+            border-radius: 90px 90px 0 0;
+        }
+
+        .card-1 .decorative-heart::before {
+            left: 90px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .card-1 .decorative-heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .card-1 .card-text {
+            font-size: 25px;
+            bottom: 30px;
+            color: var(--white);
+            font-weight: bold;
+            font-family: 'Georgia', serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            z-index: 2;
+            position: relative;
+        }
+
+        /* Card 2 - Teal/Blue YOU HAVE MY HEART Card */
+        .card-2 {
+            background: #7DBEC8;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 30px;
+        }
+
+        .card-2 .heart-container {
+            position: relative;
+            margin-bottom: 30px;
+            width: 120px;
+            height: 120px;
+        }
+
+        .card-2 .shadow-heart {
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            width: 120px;
+            height: 120px;
+            z-index: 1;
+        }
+
+        .card-2 .shadow-heart::before,
+        .card-2 .shadow-heart::after {
+            content: "";
+            position: absolute;
+            width: 60px;
+            height: 96px;
+            background: #4A4A4A;
+            border-radius: 60px 60px 0 0;
+        }
+
+        .card-2 .shadow-heart::before {
+            left: 60px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .card-2 .shadow-heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .card-2 .main-heart {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            z-index: 2;
+        }
+
+        .card-2 .main-heart::before,
+        .card-2 .main-heart::after {
+            content: "";
+            position: absolute;
+            width: 60px;
+            height: 96px;
+            background: #E63946;
+            border-radius: 60px 60px 0 0;
+        }
+
+        .card-2 .main-heart::before {
+            left: 60px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .card-2 .main-heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .card-2 .text-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .card-2 .text-small {
+            font-size: 26px;
+            color: var(--white);
+            font-weight: bold;
+            font-family: 'Georgia', serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-2 .text-large {
+            font-size: 60px;
+            color: var(--white);
+            font-weight: bold;
+            font-family: 'Georgia', serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Card 3 - Pink LOVE YOU Scattered Letters Card */
+/* Card 3 - Pink LOVE YOU Scattered Letters Card */
+.card-3 {
+    background: linear-gradient(135deg, #ffc0cb 0%, #ffb3d9 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-3 .letter {
+    position: absolute;
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-weight: 700;
+    color: #dc143c;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Scattered letter positions */
+.card-3 .letter-l { 
+    font-size: 80px; 
+    top: 50px; 
+    left: 40px;
+    animation: floatLetter 3s ease-in-out infinite;
+    animation-delay: 0s;
+}
+
+.card-3 .letter-o1 { 
+    font-size: 72px; 
+    top: 130px; 
+    left: 70px;
+    animation: floatLetter 3s ease-in-out infinite;
+    animation-delay: 0.5s;
+}
+
+.card-3 .letter-v { 
+    font-size: 68px; 
+    top: 210px; 
+    left: 40px;
+    animation: floatLetter 3s ease-in-out infinite;
+    animation-delay: 1s;
+}
+
+.card-3 .letter-e { 
+    font-size: 76px; 
+    bottom: 75px; 
+    left: 70px;
+    animation: floatLetter 3s ease-in-out infinite;
+    animation-delay: 1.5s;
+}
+
+.card-3 .letter-y { 
+    font-size: 70px; 
+    top: 105px; 
+    left: 220px;
+    animation: floatLetter 3s ease-in-out infinite;
+    animation-delay: 0.3s;
+}
+
+.card-3 .letter-o2 { 
+    font-size: 80px; 
+    top: 185px; 
+    left: 180px;
+    animation: floatLetter 3s ease-in-out infinite;
+    animation-delay: 0.8s;
+}
+
+.card-3 .letter-u { 
+    font-size: 78px; 
+    bottom: 75px; 
+    left: 210px;
+    animation: floatLetter 3s ease-in-out infinite;
+    animation-delay: 1.2s;
+}
+
+@keyframes floatLetter {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.card-3 .small-heart {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.card-3 .small-heart::before,
+.card-3 .small-heart::after {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 19px;
+    background: #ff1744;
+    border-radius: 12px 12px 0 0;
+}
+
+.card-3 .small-heart::before {
+    left: 12px;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
+
+.card-3 .small-heart::after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+}
+
+/* Heart positions */
+.card-3 .small-heart:nth-of-type(1) { 
+    top: 60px; 
+    right: 30px;
+    animation-delay: 0s;
+}
+
+.card-3 .small-heart:nth-of-type(2) { 
+    bottom: 180px; 
+    left: 25px;
+    animation-delay: 0.5s;
+}
+
+.card-3 .small-heart:nth-of-type(3) { 
+    bottom: 145px; 
+    right: 25px;
+    animation-delay: 1s;
+}
+
+.card-3 .small-heart:nth-of-type(4) { 
+    display: none;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+}
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--dark-overlay);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition-medium);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            width: 500px;
+            height: 700px;
+            background: var(--coral-pink);
+            border-radius: 20px;
+            position: relative;
+            transform: scale(0);
+            transition: transform var(--transition-slow);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-10px) scale(1);
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-red);
+            transition: transform var(--transition-fast);
+            z-index: 10;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+        }
+
+.modal-image-section {
+    height: 55%;  /* ← Increased from 40% to 55% */
+    margin: 20px;
+    border: 2px dashed rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center 10%;
+    position: relative;
+}
+        .modal-image-section .placeholder {
+            text-align: center;
+            color: var(--white);
+        }
+
+        .modal-image-section .placeholder-icon {
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
+
+        .modal-image-section .placeholder-text {
+            font-size: 16px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .modal-content-section {
+            height: 30%;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .modal-title {
+            font-size: 36px;
+            color: var(--white);
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .modal-message {
+            font-size: 20px;
+            color: var(--white);
+            line-height: 1.6;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+        }
+
+        /* ===== NEXT BUTTON ===== */
+        .next-btn {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            padding: 15px 40px;
+            background: var(--white);
+            color: var(--primary-red);
+            border: none;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all var(--transition-medium);
+            z-index: 200;
+        }
+
+        .next-btn.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .next-btn:hover {
+            background: #f0f0f0;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        /* ===== FALLING FLOWERS ===== */
+        .flower {
+            position: fixed;
+            font-size: 30px;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 1s ease-out;
+        }
+
+        .flower.active {
+            opacity: 1;
+            animation: fall linear forwards, sway ease-in-out infinite;
+        }
+
+        .flower.fade-out {
+            opacity: 0 !important;
+        }
+
+        @keyframes fall {
+            0% {
+                top: -100px;
+            }
+            100% {
+                top: calc(100vh + 100px);
+            }
+        }
+
+        @keyframes sway {
+            0%, 100% {
+                transform: translateX(0) rotate(0deg);
+            }
+            25% {
+                transform: translateX(30px) rotate(90deg);
+            }
+            50% {
+                transform: translateX(0) rotate(180deg);
+            }
+            75% {
+                transform: translateX(-30px) rotate(270deg);
+            }
+        }
+
+        /* ===== FINAL MESSAGE PAGE ===== */
+        #final-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #FF69B4 0%, #FF1493 50%, #C41E3A 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 500;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition-page);
+        }
+
+        #final-page.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .final-message-container {
+            max-width: 800px;
+            padding: 60px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin: 20px;
+        }
+
+        .final-message {
+            font-size: 40px;
+            color: var(--white);
+            text-align: center;
+            line-height: 1.8;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 36px;
+            }
+
+            .card-container {
+                flex-direction: column;
+                padding: 150px 20px 40px;
+                gap: 30px;
+            }
+
+            .card {
+                width: 280px;
+                height: 420px;
+            }
+
+            .card-1 .decorative-heart {
+                width: 140px;
+                height: 140px;
+            }
+
+            .card-1 .decorative-heart::before,
+            .card-1 .decorative-heart::after {
+                width: 70px;
+                height: 112px;
+                border-radius: 70px 70px 0 0;
+            }
+
+            .card-1 .decorative-heart::before {
+                left: 70px;
+            }
+
+            .card-1 .card-text {
+                font-size: 34px;
+            }
+
+            .card-2 .heart-container {
+                width: 100px;
+                height: 100px;
+            }
+
+            .card-2 .shadow-heart,
+            .card-2 .main-heart {
+                width: 100px;
+                height: 100px;
+            }
+
+            .card-2 .shadow-heart::before,
+            .card-2 .shadow-heart::after,
+            .card-2 .main-heart::before,
+            .card-2 .main-heart::after {
+                width: 50px;
+                height: 80px;
+                border-radius: 50px 50px 0 0;
+            }
+
+            .card-2 .shadow-heart::before,
+            .card-2 .main-heart::before {
+                left: 50px;
+            }
+
+            .card-2 .text-small {
+                font-size: 22px;
+            }
+
+            .card-2 .text-large {
+                font-size: 48px;
+            }
+
+.card-3 .letter-l { font-size: 65px; top: 70px; left: 28px; }
+.card-3 .letter-o1 { font-size: 58px; top: 95px; right: 40px; }
+.card-3 .letter-v { font-size: 54px; top: 160px; left: 20px; }
+.card-3 .letter-e { font-size: 62px; bottom: 75px; right: 32px; }
+.card-3 .letter-y { font-size: 56px; top: 90px; left: 110px; }
+.card-3 .letter-o2 { font-size: 64px; top: 155px; left: 105px; }
+.card-3 .letter-u { font-size: 62px; bottom: 65px; left: 135px; }
+
+.card-3 .small-heart {
+    width: 20px;
+    height: 20px;
+}
+
+.card-3 .small-heart::before,
+.card-3 .small-heart::after {
+    width: 10px;
+    height: 16px;
+    border-radius: 10px 10px 0 0;
+}
+
+.card-3 .small-heart::before {
+    left: 10px;
+}
+
+.card-3 .small-heart:nth-of-type(1) { top: 50px; right: 25px; }
+.card-3 .small-heart:nth-of-type(2) { bottom: 150px; left: 20px; }
+.card-3 .small-heart:nth-of-type(3) { bottom: 120px; right: 20px; }
+
+            .modal-card {
+                width: calc(100% - 40px);
+                height: 600px;
+                margin: 20px;
+            }
+
+            .modal-title {
+                font-size: 28px;
+            }
+
+            .modal-message {
+                font-size: 18px;
+            }
+
+            .final-message-container {
+                padding: 40px;
+            }
+
+            .final-message {
+                font-size: 28px;
+            }
+
+            .next-btn {
+                padding: 12px 30px;
+                font-size: 18px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div id="loader" role="alert" aria-live="polite" aria-label="Loading">
-        <div class="loader-content">
-            <h2 class="loader-text">Happy Valentines</h2>
-            <svg class="loader-heart" viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-            </svg>
-        </div>
+    <!-- ===== LOADING SCREEN ===== -->
+    <div id="loading-screen">
+        <div class="loading-heart">❤️</div>
+        <div class="loading-text">Loading your Valentine's surprise...</div>
     </div>
 
-    <div class="container">
+    <!-- ===== MAIN CONTENT ===== -->
+    <div id="main-content">
+        <!-- Header -->
         <header class="header">
-            <h1>Valentine's Day Collection</h1>
-            <p>Celebrate love with these beautiful cards</p>
+            <h1>Happy Valentine's Day</h1>
         </header>
 
-        <div class="card-gallery" role="list">
-            <!-- Card 1: HAPPY -->
-            <article class="card card-1" role="listitem" tabindex="0" aria-label="Happy Valentine's card" data-card-id="card-1">
-                <div class="card-content">
-                    <h2 class="card-main-text">HAPPY</h2>
-                    <div class="card-decoration-hearts">
-                        <svg class="heart-bg-1" viewBox="0 0 24 24" fill="rgba(139, 0, 0, 0.6)" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                        </svg>
-                    </div>
-                </div>
-            </article>
+        <!-- Card Grid -->
+        <div class="card-container">
+            <!-- Card 1 -->
+            <div class="card card-1" data-card-id="0">
+                <div class="decorative-heart"></div>
+                <div class="card-text">MY</div>
+                <div class="card-text">BB <3</div>
+            </div>
 
-            <!-- Card 2: YOU HAVE MY HEART -->
-            <article class="card card-2" role="listitem" tabindex="0" aria-label="You Have My Heart card" data-card-id="card-2">
-                <div class="card-content">
-                    <div class="layered-hearts-container">
-                        <svg class="heart-layer layer-1" viewBox="0 0 24 24" fill="#8B0000" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                        </svg>
-                        <svg class="heart-layer layer-2" viewBox="0 0 24 24" fill="#DC143C" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                        </svg>
-                        <svg class="heart-layer layer-3" viewBox="0 0 24 24" fill="#FF1744" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                        </svg>
-                    </div>
-                    <div class="card-text-overlay">
-                        <h3 class="card-small-text">YOU</h3>
-                        <h3 class="card-small-text">HAVE MY</h3>
-                        <h2 class="card-main-text">HEART</h2>
-                    </div>
+            <!-- Card 2 -->
+            <div class="card card-2" data-card-id="1">
+                <div class="heart-container">
+                    <div class="shadow-heart"></div>
+                    <div class="main-heart"></div>
                 </div>
-            </article>
+                <div class="text-container">
+                    <div class="text-small">YOU</div>
+                    <div class="text-small">HAVE MY</div>
+                    <div class="text-large">HEART</div>
+                </div>
+            </div>
 
-            <!-- Card 3: LOVE YOU -->
-            <article class="card card-3" role="listitem" tabindex="0" aria-label="Love You card" data-card-id="card-3">
-                <div class="card-content">
-                    <div class="scattered-letters">
-                        <span class="letter letter-l" style="top: 20%; left: 15%;">L</span>
-                        <span class="letter letter-o" style="top: 35%; left: 35%;">O</span>
-                        <span class="letter letter-v" style="top: 50%; left: 20%;">V</span>
-                        <span class="letter letter-e" style="top: 65%; left: 40%;">E</span>
-                        <span class="letter letter-y" style="top: 30%; right: 25%;">Y</span>
-                        <span class="letter letter-o2" style="top: 55%; right: 30%;">O</span>
-                        <span class="letter letter-u" style="top: 70%; right: 15%;">U</span>
-                    </div>
-                    <div class="floating-hearts">
-                        <span class="mini-heart" style="top: 15%; right: 10%;">♥</span>
-                        <span class="mini-heart" style="bottom: 20%; left: 10%;">♥</span>
-                        <span class="mini-heart" style="top: 80%; left: 35%;">♥</span>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Card 4: Happy Valentines with Gold Border -->
-            <article class="card card-4" role="listitem" tabindex="0" aria-label="Happy Valentines card" data-card-id="card-4">
-                <div class="card-content">
-                    <div class="gold-border-frame">
-                        <svg class="center-heart" viewBox="0 0 24 24" fill="#FF1744" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                        </svg>
-                        <h3 class="valentines-text">HAPPY<br>VALENTINES</h3>
-                    </div>
-                </div>
-            </article>
+            <!-- Card 3 -->
+            <div class="card card-3" data-card-id="2">
+                <span class="letter letter-l">L</span>
+                <span class="letter letter-o1">O</span>
+                <span class="letter letter-v">V</span>
+                <span class="letter letter-e">E</span>
+                <span class="letter letter-y">Y</span>
+                <span class="letter letter-o2">O</span>
+                <span class="letter letter-u">U</span>
+                <span class="small-heart"></span>
+                <span class="small-heart"></span>
+                <span class="small-heart"></span>
+                <span class="small-heart"></span>
+            </div>
         </div>
+
+        <!-- Next Button -->
+        <button class="next-btn">Continue →</button>
     </div>
 
-    <div id="modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
-        <div class="expanded-card" data-card-id="">
-            <button class="modal-close-btn" aria-label="Close card">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="modal-decorations"></div>
+    <!-- ===== MODAL OVERLAY ===== -->
+    <div class="modal-overlay">
+        <div class="modal-card">
+            <div class="close-btn">×</div>
+            <div class="modal-image-section">
+                <div class="placeholder">
+                    <div class="placeholder-icon">💗</div>
+                    <div class="placeholder-text">Click to add image</div>
                 </div>
-                <div class="modal-body">
-                    <div class="content-image-container">
-                        <img src="" alt="Valentine card image" class="modal-image" loading="lazy">
-                        <div class="image-placeholder">
-                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                            </svg>
-                            <p>Click to add image</p>
-                        </div>
-                    </div>
-                    <div class="content-text-container">
-                        <h2 class="modal-title" id="modal-title" contenteditable="true">Your Title Here</h2>
-                        <p class="modal-message" contenteditable="true">Your personalized Valentine's message goes here. Click to edit this text and make it your own special message!</p>
-                    </div>
-                </div>
+            </div>
+            <div class="modal-content-section">
+                <h2 class="modal-title">My Love</h2>
+                <p class="modal-message">You fill my heart with joy and happiness every single day. Thank you for being my Valentine!</p>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- ===== FINAL MESSAGE PAGE ===== -->
+    <div id="final-page">
+        <div class="final-message-container">
+            <p class="final-message">You mean the world to me. Happy Valentine's Day, my love! ❤️</p>
+        </div>
+    </div>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        // ===== CONFIGURATION OBJECT =====
+        const valentineConfig = {
+            cards: [
+                {
+                    imageUrl: 'https://i.imgur.com/MOtaNro.jpeg', // Leave empty for placeholder
+                    title: 'Mi Amor',
+                    message: 'Beautiful as ever, you color my world with colors ive never truly known until you arrived'
+                },
+                {
+                    imageUrl: 'https://i.imgur.com/QYM823f.jpeg', // Leave empty for placeholder
+                    title: 'My Heart',
+                    message: 'Each moment with you is piece I cherish. You complete my life, give it beauty in every way.'
+                },
+                {
+                    imageUrl: 'https://i.imgur.com/yR8Lyub.jpeg', // Leave empty for placeholder
+                    title: 'My Everything',
+                    message: 'My music, my melodyu, my space and all my stars. I am so grateful to have you in my life.'
+                }
+            ],
+            finalMessage: 'You mean the world to me. Happy Valentine\'s Day,te amo! ❤️',
+            loadingDuration: 3000, // milliseconds
+            flowerCount: 20
+        };
+
+        // ===== DOM ELEMENTS =====
+        const loadingScreen = document.getElementById('loading-screen');
+        const mainContent = document.getElementById('main-content');
+        const cards = document.querySelectorAll('.card');
+        const modalOverlay = document.querySelector('.modal-overlay');
+        const modalCard = document.querySelector('.modal-card');
+        const closeBtn = document.querySelector('.close-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        const finalPage = document.getElementById('final-page');
+        const modalImageSection = document.querySelector('.modal-image-section');
+        const modalTitle = document.querySelector('.modal-title');
+        const modalMessage = document.querySelector('.modal-message');
+        const finalMessage = document.querySelector('.final-message');
+
+        // ===== STATE TRACKING =====
+        let openedCards = new Set();
+        let flowersCreated = false;
+        let flowerInterval = null;
+        let activeFlowers = [];
+
+        // ===== LOADING SCREEN HANDLER =====
+        function hideLoadingScreen() {
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                setTimeout(() => {
+                    mainContent.classList.add('visible');
+                }, 100);
+            }, valentineConfig.loadingDuration);
+        }
+
+        // ===== CARD CLICK HANDLER =====
+        function openCard(cardElement) {
+            const cardId = parseInt(cardElement.dataset.cardId);
+            const cardData = valentineConfig.cards[cardId];
+
+            // Update modal content
+            modalTitle.textContent = cardData.title;
+            modalMessage.textContent = cardData.message;
+
+            // Update image if provided
+            if (cardData.imageUrl) {
+                modalImageSection.style.backgroundImage = `url('${cardData.imageUrl}')`;
+                modalImageSection.querySelector('.placeholder').style.display = 'none';
+            } else {
+                modalImageSection.style.backgroundImage = 'none';
+                modalImageSection.querySelector('.placeholder').style.display = 'flex';
+            }
+
+            // Show modal
+            modalOverlay.classList.add('active');
+
+            // Track opened card
+            openedCards.add(cardId);
+
+            // Check if all cards opened (3rd card opened)
+            if (openedCards.size === 3 && !flowersCreated) {
+                showNextButton();
+                createFallingFlowers();
+            }
+        }
+
+        // ===== CLOSE MODAL HANDLER =====
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+        }
+
+        // ===== SHOW NEXT BUTTON =====
+        function showNextButton() {
+            setTimeout(() => {
+                nextBtn.classList.add('visible');
+            }, 300);
+        }
+
+        // ===== FALLING FLOWERS ANIMATION =====
+        function createFallingFlowers() {
+            if (flowersCreated) return;
+            flowersCreated = true;
+
+            const flowerEmojis = ['❤️', '🌹', '💕', '💖', '🌸'];
+            const colors = ['#FF0000', '#FF69B4', '#DC143C', '#FF6B7A'];
+            
+            function generateFlower() {
+                const flower = document.createElement('div');
+                flower.className = 'flower';
+                flower.textContent = flowerEmojis[Math.floor(Math.random() * flowerEmojis.length)];
+                
+                // Random properties
+                const startX = Math.random() * window.innerWidth;
+                const duration = 6 + Math.random() * 6; // 6-12 seconds
+                const size = 24 + Math.random() * 24; // 24-48px
+                const opacity = 0.5 + Math.random() * 0.4; // 0.5-0.9
+                const swayDuration = 2 + Math.random() * 2; // 2-4 seconds
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                flower.style.left = `${startX}px`;
+                flower.style.fontSize = `${size}px`;
+                flower.style.color = color;
+                flower.style.setProperty('opacity', opacity);
+                flower.style.animationDuration = `${duration}s, ${swayDuration}s`;
+                
+                document.body.appendChild(flower);
+                activeFlowers.push(flower);
+                
+                // Activate animation after a frame
+                setTimeout(() => {
+                    flower.classList.add('active');
+                }, 50);
+                
+                // Remove flower after animation completes
+                setTimeout(() => {
+                    if (flower.parentNode) {
+                        flower.remove();
+                        activeFlowers = activeFlowers.filter(f => f !== flower);
+                    }
+                }, duration * 1000);
+            }
+            
+            // Generate initial batch
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => generateFlower(), i * 300);
+            }
+            
+            // Continue generating flowers
+            flowerInterval = setInterval(() => {
+                generateFlower();
+            }, 400);
+        }
+
+        // ===== STOP FALLING FLOWERS =====
+        function stopFallingFlowers() {
+            if (flowerInterval) {
+                clearInterval(flowerInterval);
+                flowerInterval = null;
+            }
+            
+            // Fade out existing flowers
+            activeFlowers.forEach(flower => {
+                flower.classList.add('fade-out');
+                setTimeout(() => {
+                    if (flower.parentNode) {
+                        flower.remove();
+                    }
+                }, 1000);
+            });
+            
+            activeFlowers = [];
+        }
+
+        // ===== SHOW FINAL PAGE =====
+        function showFinalPage() {
+            // Stop falling flowers
+            stopFallingFlowers();
+            
+            // Update final message
+            finalMessage.textContent = valentineConfig.finalMessage;
+            
+            // Fade out main content
+            mainContent.classList.add('hidden');
+            
+            // Fade in final page
+            setTimeout(() => {
+                finalPage.classList.add('visible');
+            }, 1000);
+        }
+
+        // ===== EVENT LISTENERS =====
+        cards.forEach(card => {
+            card.addEventListener('click', () => openCard(card));
+        });
+
+        closeBtn.addEventListener('click', closeModal);
+
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+
+        nextBtn.addEventListener('click', showFinalPage);
+
+        // ===== INITIALIZE APP =====
+        hideLoadingScreen();
+    </script>
 </body>
 </html>
